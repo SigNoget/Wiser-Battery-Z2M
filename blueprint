@@ -1,0 +1,159 @@
+blueprint:
+  domain: automation
+  name: Wiser Battery 4 button (Zigbee2MQTT)
+  source_url: ***
+  description: |
+    # For Wiser battery 4 button remote via Zigbee2MQTT
+    
+    Actions are triggered by MQTT messages for various button actions on the switch.
+
+    Available controls:
+    - Press Top: on/off
+    - Press Bottom: on/off
+    - Hold Top: on/off
+    - Hold Bottom: on/off
+    - Long Press actions
+
+  author: SigNoget
+  input:
+    switch_id:
+      name: Remote
+      description: Choose the remote (MQTT)
+      selector:
+        device:
+          integration: mqtt
+    input_on_top:
+      name: Button Upper Left
+      description: Power On
+      selector:
+        action:
+      default: []
+    input_off_top:
+      name: Button Upper Right
+      description: Power Off
+      selector:
+        action:
+      default: []
+    input_on_bottom:
+      name: Button Lower Left
+      description: Power On
+      selector:
+        action:
+      default: []
+    input_off_bottom:
+      name: Button Lower Right
+      description: Power Off
+      selector:
+        action:
+      default: []
+    brightness_move_up_top:
+      name: Long Press Upper Left
+      description: Long Press Upper Left
+      selector:
+        action:
+      default: []
+    brightness_move_down_top:
+      name: Long Press Upper Right
+      description: Long Press Upper Right
+      selector:
+        action:
+      default: []
+    brightness_move_up_bottom:
+      name: Long Press Lower Left
+      description: Long Press Lower Left
+      selector:
+        action:
+      default: []
+    brightness_move_down_bottom:
+      name: Long Press Lower Right
+      description: Long Press Lower Right
+      selector:
+        action:
+      default: []
+
+mode: single
+
+trigger:
+  - platform: device
+    device_id: !input switch_id
+    domain: mqtt
+    type: action
+    subtype: on_top
+    id: on_top
+  - platform: device
+    device_id: !input switch_id
+    domain: mqtt
+    type: action
+    subtype: off_top
+    id: off_top
+  - platform: device
+    device_id: !input switch_id
+    domain: mqtt
+    type: action
+    subtype: on_bottom
+    id: on_bottom
+  - platform: device
+    device_id: !input switch_id
+    domain: mqtt
+    type: action
+    subtype: off_bottom
+    id: off_bottom
+  - platform: device
+    device_id: !input switch_id
+    domain: mqtt
+    type: action
+    subtype: brightness_move_up_top
+    id: brightness_move_up_top
+  - platform: device
+    device_id: !input switch_id
+    domain: mqtt
+    type: action
+    subtype: brightness_move_down_top
+    id: brightness_move_down_top
+  - platform: device
+    device_id: !input switch_id
+    domain: mqtt
+    type: action
+    subtype: brightness_move_up_bottom
+    id: brightness_move_up_bottom
+  - platform: device
+    device_id: !input switch_id
+    domain: mqtt
+    type: action
+    subtype: brightness_move_down_bottom
+    id: brightness_move_down_bottom
+
+action:
+  - choose:
+      - conditions:
+          - condition: trigger
+            id: on_top
+        sequence: !input input_on_top
+      - conditions:
+          - condition: trigger
+            id: off_top
+        sequence: !input input_off_top
+      - conditions:
+          - condition: trigger
+            id: on_bottom
+        sequence: !input input_on_bottom
+      - conditions:
+          - condition: trigger
+            id: off_bottom
+        sequence: !input input_off_bottom
+      - conditions:
+          - condition: trigger
+            id: brightness_move_up_top
+        sequence: !input brightness_move_up_top
+      - conditions:
+          - condition: trigger
+            id: brightness_move_down_top
+        sequence: !input brightness_move_down_top
+      - conditions:
+          - condition: trigger
+            id: brightness_move_up_bottom
+        sequence: !input brightness_move_up_bottom
+      - conditions:
+          - condition: trigger
+            id: brightness_move_down_bottom
+        sequence: !input brightness_move_down_bottom
