@@ -1,7 +1,6 @@
 blueprint:
   domain: automation
   name: Wiser Battery 4 button (Zigbee2MQTT)
-  source_url: ***
   description: |
     # For Wiser battery 4 button remote via Zigbee2MQTT
     
